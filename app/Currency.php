@@ -25,5 +25,7 @@ use Illuminate\Support\Carbon;
  */
 class Currency extends Model
 {
-    //
+    protected $fillable = [
+        'usd_rate',
+    ];
 }

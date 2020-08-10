@@ -13,8 +13,8 @@ class CurrenciesTableSeeder extends Seeder
     public function run()
     {
         $codes = [
-            'usd',
-            'eur',
+            'USD',
+            'EUR',
         ];
 
         foreach ($codes as $code) {
