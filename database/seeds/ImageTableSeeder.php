@@ -45,6 +45,34 @@ class ImageTableSeeder extends Seeder
                 'name' => 'hot.webp',
                 'imagable_id' => 8,
             ],
+            [
+                'name' => 'pepsi.png',
+                'imagable_id' => 9,
+            ],
+            [
+                'name' => 'cola.png',
+                'imagable_id' => 10,
+            ],
+            [
+                'name' => 'sprite.png',
+                'imagable_id' => 11,
+            ],
+            [
+                'name' => 'water.png',
+                'imagable_id' => 12,
+            ],
+            [
+                'name' => 'garlic.png',
+                'imagable_id' => 13,
+            ],
+            [
+                'name' => 'bbq.png',
+                'imagable_id' => 14,
+            ],
+            [
+                'name' => 'tomato.png',
+                'imagable_id' => 15,
+            ],
         ];
 
         $type = Product::class;
