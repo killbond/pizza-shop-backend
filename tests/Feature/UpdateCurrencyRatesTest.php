@@ -4,13 +4,10 @@ namespace Tests\Feature;
 
 use App\Currency;
 use CurrenciesTableSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UpdateCurrencyRatesTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * A basic feature test example.
      *
