@@ -39,7 +39,13 @@ class ProductResourceTest extends TestCase
         $this->assertTrue($productIngredients->contains('name', 'Mozzarella'));
         $this->assertTrue($productIngredients->contains('name', 'Ham'));
 
-        $this->assertEquals(3, $queriesCount);
+        $images = collect($response->json('data.*.image.url'));
+        $urls = $images->filter(function ($url) {
+            return !is_null($url);
+        });
+        $this->assertTrue($urls->isNotEmpty());
+
+        $this->assertEquals(4, $queriesCount);
     }
 
     public function testReferentialIntegrity()

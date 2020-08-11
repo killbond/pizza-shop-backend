@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $products = Product::with('ingredients', 'category')->get();
+        $products = Product::with('ingredients', 'category', 'image')->get();
         return ProductResource::collection($products);
     }
 }
