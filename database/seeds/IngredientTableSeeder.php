@@ -22,7 +22,7 @@ class IngredientTableSeeder extends Seeder
             'Chicken',
             'Corn',
             'Cherry tomatoes',
-            'Pepper mix',
+            'Beef',
         ];
 
         foreach ($ingredients as $ingredient) {
