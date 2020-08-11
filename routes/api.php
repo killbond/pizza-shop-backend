@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('currencies', 'Api\V1\CurrencyController');
+    Route::get('categories', 'Api\V1\CategoryController');
 });
