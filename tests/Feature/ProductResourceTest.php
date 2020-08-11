@@ -4,42 +4,46 @@ namespace Tests\Feature;
 
 use App\Category;
 use App\Product;
-use CategoriesTableSeeder;
+use DB;
 use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use IngredientProductTableSeeder;
-use IngredientTableSeeder;
-use ProductTableSeeder;
 use Tests\TestCase;
 
 class ProductResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testFetchingProducts()
     {
-        $this->seeds();
         $response = $this->fetchResource();
-        $products = collect($response->json('data.*.name'));
-        $intersect = $products->intersect(['Classic pizza', 'Pepperoni pizza']);
-        $this->assertTrue($intersect->isNotEmpty());
+        $products = collect($response->json('data.*'));
+        $this->assertTrue($products->contains('name', 'Classic pizza'));
+        $this->assertTrue($products->contains('name', 'Pepperoni pizza'));
+    }
+
+    private function fetchResource()
+    {
+        $response = $this->get('api/v1/products');
+        return $response->assertStatus(200);
     }
 
     public function testFetchingProductRelations()
     {
-        $this->seeds();
-        $response = $this->fetchResource();
-        $categories = collect($response->json('data.*.category.name'));
-        $this->assertTrue($categories->contains('Pizza'));
+        $queriesCount = 0;
+        DB::listen(function () use (&$queriesCount) {
+            $queriesCount++;
+        });
 
-        $productIngredients = $response->json('data.*.ingredients.*.name');
-        $intersect = $productIngredients->intersect(['Mozarella', 'Ham']);
-        $this->assertTrue($intersect->isNotEmpty());
+        $response = $this->fetchResource();
+        $categories = collect($response->json('data.*.category'));
+        $this->assertTrue($categories->contains('name', 'Pizza'));
+
+        $productIngredients = collect($response->json('data.*.ingredients.*'));
+        $this->assertTrue($productIngredients->contains('name', 'Mozzarella'));
+        $this->assertTrue($productIngredients->contains('name', 'Ham'));
+
+        $this->assertEquals(3, $queriesCount);
     }
 
     public function testReferentialIntegrity()
     {
-        $this->seeds();
         $product = Product::firstWhere('category_id', 1);
         try {
             Category::find(1)->delete();
@@ -47,20 +51,5 @@ class ProductResourceTest extends TestCase
             $this->throwException($e);
         }
         $this->assertDeleted($product);
-    }
-
-    private function fetchResource()
-    {
-        $response = $this->get('api/v1/products');
-        $response->assertStatus(200);
-        return $response;
-    }
-
-    private function seeds()
-    {
-        $this->seed(CategoriesTableSeeder::class);
-        $this->seed(IngredientTableSeeder::class);
-        $this->seed(ProductTableSeeder::class);
-        $this->seed(IngredientProductTableSeeder::class);
     }
 }
