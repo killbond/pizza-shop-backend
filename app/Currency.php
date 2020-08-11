@@ -28,4 +28,8 @@ class Currency extends Model
     protected $fillable = [
         'usd_rate',
     ];
+
+    protected $casts = [
+        'usd_rate' => 'float',
+    ];
 }
