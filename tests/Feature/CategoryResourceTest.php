@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Category;
 use CategoriesTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,5 +22,11 @@ class CategoryResourceTest extends TestCase
         $response = $this->get('api/v1/categories');
         $response->assertStatus(200)
             ->assertJsonPath('data.*.name', ['Pizza', 'Drinks', 'Souses']);
+    }
+
+    public function testCategoryCreation()
+    {
+        $category = Category::create(['name' => 'Test']);
+        $this->assertDatabaseHas('categories', $category->toArray());
     }
 }

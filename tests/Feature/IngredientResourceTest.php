@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Ingredient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use IngredientTableSeeder;
 use Tests\TestCase;
@@ -23,5 +24,11 @@ class IngredientResourceTest extends TestCase
         $ingredients = collect($response->json('data.*.name'));
         $intersect = $ingredients->intersect(['Mozzarella', 'Ham']);
         $this->assertTrue($intersect->isNotEmpty());
+    }
+
+    public function testIngredientCreation()
+    {
+        $ingredient = Ingredient::create(['name' => 'Test']);
+        $this->assertDatabaseHas('ingredients', $ingredient->toArray());
     }
 }
