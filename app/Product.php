@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Category $category
  * @property-read Collection|Ingredient[] $ingredients
  * @property-read int|null $ingredients_count
+ * @property-read Image|null $image
  */
 class Product extends Model
 {
@@ -42,5 +43,10 @@ class Product extends Model
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class, 'ingredient_product');
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imagable');
     }
 }

@@ -39,9 +39,11 @@ class ProductResourceTest extends TestCase
         $this->assertTrue($productIngredients->contains('name', 'Mozzarella'));
         $this->assertTrue($productIngredients->contains('name', 'Ham'));
 
-        $images = collect($response->json('data.*.image.*'));
-        $this->assertTrue($images->isNotEmpty());
-        $this->assertTrue($images->contains('url'));
+        $images = collect($response->json('data.*.image.url'));
+        $urls = $images->filter(function ($url) {
+            return !is_null($url);
+        });
+        $this->assertTrue($urls->isNotEmpty());
 
         $this->assertEquals(4, $queriesCount);
     }
