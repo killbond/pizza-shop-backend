@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistrationRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    public function __invoke()
+    /**
+     * @param  RegistrationRequest  $request
+     * @return JsonResponse
+     */
+    public function __invoke(RegistrationRequest $request)
     {
-        // TODO: Implement __invoke() method.
+        return response()->json(
+            ['data' => User::create($request->validated())],
+            Response::HTTP_CREATED
+        );
     }
 }
