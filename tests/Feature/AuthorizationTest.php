@@ -9,9 +9,9 @@ class AuthorizationTest extends TestCase
 {
     public function testSuccessLogin()
     {
-        $credentials = ['username' => 'test@pizza-shop.com', 'password' => '123456'];
+        $credentials = ['email' => 'test@pizza-shop.com', 'password' => '123456'];
         $response = $this->postJson('api/v1/auth/login', $credentials);
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $token = $response->json('data.access_token');
         $this->assertNotEmpty($token);
         $this->assertAuthenticated();
@@ -19,11 +19,10 @@ class AuthorizationTest extends TestCase
 
     public function testFailedLogin()
     {
-        $credentials = ['username' => 'invalid_email', 'password' => '123456'];
+        $credentials = ['email' => 'test@pizza-shop.com', 'password' => '654321'];
         $response = $this->postJson('api/v1/auth/login', $credentials);
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-        $token = $response->json('data.access_token');
-        $this->assertEmpty($token);
+        $this->assertNotEmpty($response->json('message'));
         $this->assertGuest();
     }
 }

@@ -31,7 +31,7 @@ class UsersResourceTest extends TestCase
             'password_confirmation' => '1234567',
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertNotEmpty($response->json('messages'));
+        $this->assertNotEmpty($response->json('errors'));
         $this->assertDatabaseMissing('users', ['phone' => '+447868150710']);
     }
 }
