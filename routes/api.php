@@ -20,4 +20,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('products', 'Api\V1\ProductController');
     Route::get('pizzas', 'Api\V1\PizzaController');
     Route::post('users', 'Api\V1\UserController');
+    Route::post('auth/login', 'Api\V1\AuthController@login');
 });
