@@ -19,9 +19,9 @@ class PizzaResourceTest extends TestCase
     public function testFetchingPizzas()
     {
         $response = $this->fetchResource();
-        $products = collect($response->json('data.*'));
-        $this->assertTrue($products->contains('name', 'Classic pizza'));
-        $this->assertTrue($products->contains('name', 'Pepperoni pizza'));
+        $pizzas = collect($response->json('data.*'));
+        $this->assertTrue($pizzas->contains('name', 'Classic pizza'));
+        $this->assertTrue($pizzas->contains('name', 'Pepperoni pizza'));
     }
 
     public function testFetchingPizzaRelations()
@@ -32,18 +32,14 @@ class PizzaResourceTest extends TestCase
         });
 
         $response = $this->fetchResource();
-        $categories = collect($response->json('data.*.category'));
-        $this->assertTrue($categories->contains('name', 'Pizza'));
+        $pizzas = collect($response->json('data.*'));
+        $this->assertTrue($pizzas->contains('category.name', 'Pizza'));
 
-        $productIngredients = collect($response->json('data.*.ingredients.*'));
-        $this->assertTrue($productIngredients->contains('name', 'Mozzarella'));
-        $this->assertTrue($productIngredients->contains('name', 'Ham'));
+        $ingredients = $pizzas->pluck('ingredients')->flatten(1);
+        $this->assertTrue($ingredients->contains('name', 'Mozzarella'));
+        $this->assertTrue($ingredients->contains('name', 'Ham'));
 
-        $images = collect($response->json('data.*.image.url'));
-        $urls = $images->filter(function ($url) {
-            return !is_null($url);
-        });
-        $this->assertTrue($urls->isNotEmpty());
+        $this->assertTrue($pizzas->contains('image.url', '!=', null));
 
         $this->assertEquals(4, $queriesCount);
     }

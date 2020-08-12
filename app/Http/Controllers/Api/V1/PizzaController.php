@@ -7,11 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-/**
- * Class ProductController
- * @package App\Http\Controllers\Api\V1
- */
-class ProductController extends Controller
+class PizzaController extends Controller
 {
     /**
      * @param  ProductRepository  $repository
@@ -19,7 +15,7 @@ class ProductController extends Controller
      */
     public function __invoke(ProductRepository $repository)
     {
-        $products = $repository->getProducts();
-        return ProductResource::collection($products);
+        $pizzas = $repository->getPizzas();
+        return ProductResource::collection($pizzas);
     }
 }

@@ -13,7 +13,7 @@ class ProductResourceTest extends TestCase
         return $response->assertStatus(200);
     }
 
-    public function testFetchingPizzas()
+    public function testFetchingProducts()
     {
         $response = $this->fetchResource();
         $products = collect($response->json('data.*'));
@@ -31,13 +31,10 @@ class ProductResourceTest extends TestCase
         $response = $this->fetchResource();
         $categories = collect($response->json('data.*.category'));
         $this->assertFalse($categories->contains('name', 'Pizza'));
-        $this->assertFalse($response->json('data.*.ingredients'));
 
-        $images = collect($response->json('data.*.image.url'));
-        $urls = $images->filter(function ($url) {
-            return !is_null($url);
-        });
-        $this->assertTrue($urls->isNotEmpty());
+        $products = collect($response->json('data.*'));
+        $this->assertFalse($products->contains('ingredients', '!=', null));
+        $this->assertTrue($products->contains('image.url', '!=', null));
 
         $this->assertEquals(3, $queriesCount);
     }
