@@ -18,4 +18,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('categories', 'Api\V1\CategoryController');
     Route::get('ingredients', 'Api\V1\IngredientController');
     Route::get('products', 'Api\V1\ProductController');
+    Route::get('pizzas', 'Api\V1\PizzaController');
+    Route::post('users', 'Api\V1\UserController');
+    Route::get('users/{user}/orders', 'Api\V1\OrderController@list')->middleware('auth:api');
+    Route::post('auth/login', 'Api\V1\AuthController@login');
+    Route::post('orders', 'Api\V1\OrderController@store');
 });
