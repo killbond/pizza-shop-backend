@@ -29,11 +29,19 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Order whereTotal($value)
  * @method static Builder|Order whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Currency|null $currency
  */
 class Order extends Model
 {
+    protected $fillable = [
+        'currency_id',
+        'phone',
+        'total',
+    ];
+
     protected $hidden = [
-        'pivot'
+        'pivot',
+        'currency',
     ];
 
     protected $casts = [
@@ -44,5 +52,10 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class, 'order_position')
             ->withPivot('quantity');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

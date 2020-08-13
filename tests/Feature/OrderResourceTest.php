@@ -20,16 +20,17 @@ class OrderResourceTest extends TestCase
             ],
         ];
         $response = $this->postJson('api/v1/orders', $data);
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertJsonPath('data.total', 16.77);
         $this->assertDatabaseHas('orders', ['phone' => '+491771789427']);
     }
 
     public function testFailedStoreOrder()
     {
-        $data = ['currency_id' => 1, 'phone' => '+491771789427'];
+        $data = ['currency_id' => 1, 'phone' => '+491771787427'];
         $response = $this->postJson('api/v1/orders', $data);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertDatabaseMissing('orders', ['phone' => '+491771789427']);
+        $this->assertDatabaseMissing('orders', ['phone' => '+491771787427']);
     }
 
     public function testAuthentication()
@@ -45,6 +46,7 @@ class OrderResourceTest extends TestCase
         $this->actingAs($user, 'api');
         $response = $this->getJson('api/v1/users/1/orders');
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotEquals(0, $response->json('data.*.positions'));
+        $positions = collect($response->json('data.*.positions'))->flatten(1);
+        $this->assertNotEquals(0, $positions->count());
     }
 }
