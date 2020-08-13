@@ -18,10 +18,17 @@ class OrderResourceTest extends TestCase
                 ['product_id' => 1, 'quantity' => 1],
                 ['product_id' => 2, 'quantity' => 2],
             ],
+            'delivery' => [
+                'type_id' => 1,
+                'coordinates' => [
+                    'address' => 'Test address',
+                ],
+            ],
         ];
         $response = $this->postJson('api/v1/orders', $data);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonPath('data.total', 16.77);
+        $response->assertJsonPath('data.delivery.type_id', 1);
         $this->assertDatabaseHas('orders', ['phone' => '+491771789427']);
     }
 
