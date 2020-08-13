@@ -30,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Order whereUpdatedAt($value)
  * @mixin Eloquent
  * @property-read Currency|null $currency
+ * @property-read Delivery|null $delivery
  */
 class Order extends Model
 {
@@ -57,5 +58,10 @@ class Order extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateCoordinatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('coordinates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('currency_id')
-                ->constrained('currencies')
+            $table->foreignId('delivery_id')
+                ->constrained('deliveries')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->string('phone');
-            $table->decimal('total')->default(0);
-            $table->timestamps();
+            $table->string('address');
+            $table->decimal('lat', 10, 8)->nullable();
+            $table->decimal('lng', 11, 8)->nullable();
         });
     }
 
@@ -32,6 +32,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('coordinates');
     }
 }

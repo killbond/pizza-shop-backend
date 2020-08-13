@@ -5,25 +5,25 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Resources\OrderResource;
-use App\Repositories\OrderRepository;
+use App\Services\OrderService;
 use App\User;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
     /**
-     * @var OrderRepository
+     * @var OrderService
      */
-    protected $repository;
+    protected $service;
 
-    public function __construct(OrderRepository $repository)
+    public function __construct(OrderService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function store(OrderStoreRequest $request)
     {
-        $order = $this->repository->create($request);
+        $order = $this->service->handleOrder($request);
         return OrderResource::make($order)
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -31,7 +31,7 @@ class OrderController extends Controller
 
     public function list(User $user)
     {
-        $orders = $this->repository->getUserOrders($user);
+        $orders = $this->service->getUserOrders($user);
         return OrderResource::collection($orders);
     }
 }
