@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Actions\CalculateOrderCurrencyRate;
+use App\Actions\CalculateOrderDelivery;
 use App\Actions\CalculateOrderPositions;
 use App\Events\OrderCreated;
 use App\Order;
@@ -12,7 +13,8 @@ class CalculateOrderTotal
 {
     protected $pipes = [
         CalculateOrderPositions::class,
-        CalculateOrderCurrencyRate::class
+        CalculateOrderDelivery::class,
+        CalculateOrderCurrencyRate::class,
     ];
 
     /**

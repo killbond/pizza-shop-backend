@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('phone');
-            $table->decimal('total');
+            $table->decimal('total')->default(0);
             $table->timestamps();
         });
     }

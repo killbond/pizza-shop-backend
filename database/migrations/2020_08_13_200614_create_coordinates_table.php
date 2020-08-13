@@ -20,8 +20,8 @@ class CreateCoordinatesTable extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('address');
-            $table->decimal('lat', 10, 8);
-            $table->decimal('lng', 11, 8);
+            $table->decimal('lat', 10, 8)->nullable();
+            $table->decimal('lng', 11, 8)->nullable();
         });
     }
 
