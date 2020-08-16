@@ -23,7 +23,7 @@ class UsersResourceTest extends TestCase
 
     public function testFailedRegistration()
     {
-        $response = $this->post('api/v1/users', [
+        $response = $this->postJson('api/v1/users', [
             'name' => 'John Doe',
             'email' => 'test@pizza-shop.com',
             'phone' => '+447868150710',

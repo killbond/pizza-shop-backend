@@ -5,12 +5,15 @@ namespace App;
 use Eloquent;
 use Hash;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Token;
 
 /**
  * App\User
@@ -37,6 +40,12 @@ use Laravel\Passport\HasApiTokens;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Collection|Client[] $clients
+ * @property-read int|null $clients_count
+ * @property-read Collection|Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read Collection|Token[] $tokens
+ * @property-read int|null $tokens_count
  */
 class User extends Authenticatable
 {
@@ -67,5 +76,10 @@ class User extends Authenticatable
     public function setPasswordAttribute(string $value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_user');
     }
 }
