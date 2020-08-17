@@ -30,7 +30,7 @@ class OrderService
     {
         $order = $this->createOrder($request->only('currency_id', 'phone'));
         $this->attachPositionsToOrder($order, $request->positions);
-        $this->attachUserToOrder($order, $request->user());
+        $this->attachUserToOrder($order, $request->user('api'));
         $this->attachDeliveryToOrder($order, $request->delivery);
 
         event(new OrderCreated($order));

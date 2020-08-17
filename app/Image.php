@@ -43,6 +43,10 @@ class Image extends Model
 
     public function getUrlAttribute()
     {
+        $base = env('IMAGES_PATH', false);
+        if ($base) {
+            return $base.'/'.$this->name;
+        }
         return url(Storage::url($this->name));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Coordinates;
+use App\Delivery;
 use App\Order;
 use Closure;
 
@@ -12,14 +12,14 @@ class CalculateOrderDelivery
     {
         $delivery = $order->delivery;
         if ($delivery->isDelivery()) {
-            $price = $this->getPrice($delivery->coordinates);
+            $price = $this->getPrice($delivery);
             $delivery->update(['price' => $price]);
             $order->total += $price;
         }
         $next($order);
     }
 
-    protected function getPrice(Coordinates $coordinates)
+    protected function getPrice(Delivery $delivery)
     {
         return 5;
     }
