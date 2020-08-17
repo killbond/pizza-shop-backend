@@ -31,4 +31,11 @@ class AuthService
             'token_type' => 'Bearer',
         ];
     }
+
+    public function logout()
+    {
+        /** @var User $user */
+        $user = auth('api')->user();
+        $user->token()->revoke();
+    }
 }

@@ -22,5 +22,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('users', 'Api\V1\UserController');
     Route::get('users/{user}/orders', 'Api\V1\OrderController@list')->middleware('auth:api');
     Route::post('auth/login', 'Api\V1\AuthController@login');
+    Route::delete('auth/login', 'Api\V1\AuthController@logout');
     Route::post('orders', 'Api\V1\OrderController@store');
 });
