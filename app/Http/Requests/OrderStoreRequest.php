@@ -29,9 +29,9 @@ class OrderStoreRequest extends FormRequest
             'positions.*.quantity' => 'required|integer|gt:0',
             'delivery' => 'required',
             'delivery.type_id' => 'required|numeric|exists:delivery_types,id',
-            'delivery.coordinates.address' => 'string',
-            'delivery.coordinates.lat' => 'numeric',
-            'delivery.coordinates.lng' => 'numeric',
+            'delivery.coordinates.address' => 'nullable|string|required_if:delivery.type_id,1',
+            'delivery.coordinates.lat' => 'nullable|numeric',
+            'delivery.coordinates.lng' => 'nullable|numeric',
         ];
     }
 }
