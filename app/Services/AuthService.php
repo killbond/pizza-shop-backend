@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Http\Requests\LoginRequest;
+use App\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
