@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Http\Requests\LoginRequest;
+use App\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -29,5 +30,12 @@ class AuthService
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
         ];
+    }
+
+    public function logout()
+    {
+        /** @var User $user */
+        $user = auth('api')->user();
+        $user->token()->revoke();
     }
 }
