@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderListRequest;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
-use App\User;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
@@ -29,9 +29,9 @@ class OrderController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function list(User $user)
+    public function list(OrderListRequest $request)
     {
-        $orders = $this->service->getUserOrders($user);
+        $orders = $this->service->getUserOrders($request->user('api'));
         return OrderResource::collection($orders);
     }
 }
