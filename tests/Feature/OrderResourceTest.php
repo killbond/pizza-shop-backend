@@ -69,6 +69,12 @@ class OrderResourceTest extends TestCase
     {
         $response = $this->getJson('api/v1/users/1/orders');
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+
+        $user = User::firstWhere('email', 'test@pizza-shop.com');
+        $this->actingAs($user, 'api');
+
+        $response = $this->getJson('api/v1/users/2/orders');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function testFetchingUserOrders()
